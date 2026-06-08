@@ -18,4 +18,4 @@ Allow: /
 User-agent: Applebot-Extended
 Allow: /
 
-Sitemap: https://henriquesiqueira.vercel.app/sitemap.xml
+Sitemap: https://henrique-df586.vercel.app/sitemap.xml
