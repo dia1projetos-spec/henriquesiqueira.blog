@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login — Admin · Henrique Siqueira</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/admin.css" />
+</head>
+<body class="admin-body">
+  <div class="noise"></div>
+
+  <div class="login-wrap">
+    <div class="login-deco" aria-hidden="true">
+      <div class="deco-big">HS</div>
+    </div>
+    <div class="login-card">
+      <a href="/" class="login-back">← Voltar ao blog</a>
+      <h1 class="login-title">Área<br/>Administrativa</h1>
+      <p class="login-sub">Acesso restrito ao autor.</p>
+
+      <div id="loginError" class="login-error" style="display:none;"></div>
+
+      <div class="login-form">
+        <div class="form-group">
+          <label for="email" class="form-label">E-mail</label>
+          <input type="email" id="email" class="form-input" placeholder="seu@email.com" autocomplete="email" />
+        </div>
+        <div class="form-group">
+          <label for="password" class="form-label">Senha</label>
+          <input type="password" id="password" class="form-input" placeholder="••••••••" autocomplete="current-password" />
+        </div>
+        <button class="login-btn" id="loginBtn">
+          <span id="loginBtnText">Entrar</span>
+          <div class="btn-spinner" id="loginSpinner" style="display:none;"></div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="../js/login.js"></script>
+</body>
+</html>

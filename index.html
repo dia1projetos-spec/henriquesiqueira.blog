@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO Primary -->
+  <title>Henrique Siqueira — Ideias que provocam pensamento</title>
+  <meta name="description" content="Blog de Henrique Siqueira. Artigos sobre fé, tecnologia, análise crítica e cultura. Um espaço para ideias que desafiam o convencional." />
+  <meta name="keywords" content="Henrique Siqueira, blog, análise crítica, fé, tecnologia, religião, cultura, artigos" />
+  <meta name="author" content="Henrique Siqueira" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <link rel="canonical" href="https://henriquesiqueira.vercel.app/" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://henriquesiqueira.vercel.app/" />
+  <meta property="og:title" content="Henrique Siqueira — Ideias que provocam pensamento" />
+  <meta property="og:description" content="Artigos sobre fé, tecnologia, análise crítica e cultura. Um espaço para ideias que desafiam o convencional." />
+  <meta property="og:image" content="https://henriquesiqueira.vercel.app/images/og-image.jpg" />
+  <meta property="og:locale" content="pt_BR" />
+  <meta property="og:site_name" content="Henrique Siqueira" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Henrique Siqueira — Ideias que provocam pensamento" />
+  <meta name="twitter:description" content="Artigos sobre fé, tecnologia, análise crítica e cultura." />
+  <meta name="twitter:image" content="https://henriquesiqueira.vercel.app/images/og-image.jpg" />
+
+  <!-- Schema.org / JSON-LD (IA-ready) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": "Henrique Siqueira",
+    "description": "Blog de análise crítica, fé, tecnologia e cultura.",
+    "url": "https://henriquesiqueira.vercel.app/",
+    "author": {
+      "@type": "Person",
+      "name": "Henrique Siqueira",
+      "url": "https://henriquesiqueira.vercel.app/",
+      "sameAs": []
+    },
+    "inLanguage": "pt-BR",
+    "copyrightYear": "2025"
+  }
+  </script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+
+  <!-- Firebase SDK -->
+  <script type="module" src="js/firebase-config.js"></script>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ═══ CURSOR ═══ -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-follower" id="cursorFollower"></div>
+
+  <!-- ═══ NOISE OVERLAY ═══ -->
+  <div class="noise"></div>
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="site-header" id="siteHeader">
+    <div class="header-inner">
+      <a href="/" class="logo" aria-label="Henrique Siqueira — Home">
+        <span class="logo-main">HS</span>
+        <span class="logo-sub">Henrique Siqueira</span>
+      </a>
+      <nav class="main-nav" aria-label="Navegação principal">
+        <a href="/" class="nav-link active">Início</a>
+        <a href="#artigos" class="nav-link">Artigos</a>
+        <a href="#sobre" class="nav-link">Sobre</a>
+        <a href="admin/login.html" class="nav-link nav-admin" aria-label="Área administrativa">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ═══ HERO ═══ -->
+  <section class="hero" aria-label="Apresentação">
+    <div class="hero-bg-text" aria-hidden="true">HENRIQUE</div>
+
+    <div class="hero-inner">
+      <div class="hero-content">
+        <div class="hero-eyebrow">
+          <span class="dot"></span>
+          <span>Blog & Análise Crítica</span>
+        </div>
+        <h1 class="hero-title">
+          Ideias que<br/>
+          <em>provocam</em><br/>
+          pensamento.
+        </h1>
+        <p class="hero-desc">
+          Espaço de reflexão sobre fé, tecnologia e cultura.
+          Sem dogmas. Sem filtro. Com argumento.
+        </p>
+        <a href="#artigos" class="cta-btn">
+          Explorar artigos
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+
+      <div class="hero-photo-wrap">
+        <div class="hero-photo-frame">
+          <div class="photo-decoration" aria-hidden="true"></div>
+          <img
+            src="images/henrique.jpg"
+            alt="Henrique Siqueira ao microfone em seu estúdio"
+            class="hero-photo"
+            loading="eager"
+            width="420"
+            height="520"
+          />
+          <div class="photo-badge">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
+            <span>Novo artigo esta semana</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-scroll-hint" aria-hidden="true">
+      <span>scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ═══ TICKER ═══ -->
+  <div class="ticker-wrap" aria-hidden="true">
+    <div class="ticker-track">
+      <span>Fé &amp; Razão</span><span class="sep">✦</span>
+      <span>Análise Crítica</span><span class="sep">✦</span>
+      <span>Tecnologia</span><span class="sep">✦</span>
+      <span>Cultura</span><span class="sep">✦</span>
+      <span>Pensamento Livre</span><span class="sep">✦</span>
+      <span>Fé &amp; Razão</span><span class="sep">✦</span>
+      <span>Análise Crítica</span><span class="sep">✦</span>
+      <span>Tecnologia</span><span class="sep">✦</span>
+      <span>Cultura</span><span class="sep">✦</span>
+      <span>Pensamento Livre</span><span class="sep">✦</span>
+      <span>Fé &amp; Razão</span><span class="sep">✦</span>
+      <span>Análise Crítica</span><span class="sep">✦</span>
+      <span>Tecnologia</span><span class="sep">✦</span>
+      <span>Cultura</span><span class="sep">✦</span>
+      <span>Pensamento Livre</span><span class="sep">✦</span>
+    </div>
+  </div>
+
+  <!-- ═══ ARTICLES ═══ -->
+  <main id="artigos">
+    <div class="section-header">
+      <h2 class="section-title">Artigos Recentes</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <!-- Featured Article -->
+    <article class="featured-article" id="featuredArticle" style="display:none;" itemscope itemtype="https://schema.org/BlogPosting">
+      <a class="featured-link" id="featuredLink" href="#" aria-label="Ler artigo em destaque">
+        <div class="featured-image-wrap">
+          <img id="featuredImage" src="" alt="" class="featured-image" loading="lazy" itemprop="image" />
+          <div class="featured-tag">Em destaque</div>
+        </div>
+        <div class="featured-info">
+          <div class="article-meta">
+            <span class="article-category" id="featuredCategory" itemprop="articleSection"></span>
+            <span class="article-date" id="featuredDate" itemprop="datePublished"></span>
+          </div>
+          <h3 class="featured-title" id="featuredTitle" itemprop="headline"></h3>
+          <p class="featured-excerpt" id="featuredExcerpt" itemprop="description"></p>
+          <span class="read-more">Ler artigo completo →</span>
+        </div>
+      </a>
+    </article>
+
+    <!-- Grid -->
+    <div class="articles-grid" id="articlesGrid">
+      <!-- Skeleton loaders -->
+      <div class="article-skeleton"></div>
+      <div class="article-skeleton"></div>
+      <div class="article-skeleton"></div>
+      <div class="article-skeleton"></div>
+      <div class="article-skeleton"></div>
+      <div class="article-skeleton"></div>
+    </div>
+
+    <!-- Empty state -->
+    <div class="empty-state" id="emptyState" style="display:none;">
+      <div class="empty-icon">✍️</div>
+      <p>Nenhum artigo publicado ainda.</p>
+      <p class="empty-sub">Volte em breve — tem coisa boa vindo por aí.</p>
+    </div>
+
+    <!-- Load more -->
+    <div class="load-more-wrap" id="loadMoreWrap" style="display:none;">
+      <button class="load-more-btn" id="loadMoreBtn">Carregar mais artigos</button>
+    </div>
+  </main>
+
+  <!-- ═══ SOBRE ═══ -->
+  <section class="about-section" id="sobre" aria-label="Sobre Henrique Siqueira" itemscope itemtype="https://schema.org/Person">
+    <div class="about-inner">
+      <div class="about-text">
+        <div class="hero-eyebrow">
+          <span class="dot"></span>
+          <span>Sobre</span>
+        </div>
+        <h2 class="about-title" itemprop="name">Henrique<br/>Siqueira</h2>
+        <p itemprop="description">
+          Criador de conteúdo, pesquisador independente e escritor.
+          Exploro as fronteiras entre fé e razão, tecnologia e cultura,
+          com olhar crítico e linguagem direta.
+        </p>
+        <p>
+          Neste blog você encontra artigos autorais, análises documentadas
+          e reflexões que não cabem em 60 segundos de vídeo.
+        </p>
+      </div>
+      <div class="about-stats">
+        <div class="stat-card">
+          <div class="stat-num" id="statArticles">0</div>
+          <div class="stat-label">Artigos publicados</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">100%</div>
+          <div class="stat-label">Conteúdo autoral</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">∞</div>
+          <div class="stat-label">Perguntas sem dogma</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-logo">HS</div>
+      <p class="footer-copy">© <span id="year"></span> Henrique Siqueira. Todos os direitos reservados.</p>
+      <nav class="footer-nav" aria-label="Navegação do rodapé">
+        <a href="/">Início</a>
+        <a href="#artigos">Artigos</a>
+        <a href="#sobre">Sobre</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
