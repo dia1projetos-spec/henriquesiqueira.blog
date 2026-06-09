@@ -45,6 +45,7 @@
       <a href="/" class="nav-link active">Início</a>
       <a href="#artigos" class="nav-link">Artigos</a>
       <a href="#sobre" class="nav-link">Sobre</a>
+        <a href="#contato" class="nav-link">Contato</a>
       <a href="admin/login.html" class="nav-admin" aria-label="Admin">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       </a>
@@ -83,7 +84,7 @@
       <div class="photo-card">
         <div class="photo-accent-line"></div>
         <img
-          src="images/eu.JPEG"
+          src="images/henrique.jpg"
           alt="Henrique Siqueira no estúdio"
           class="hero-photo"
           width="400" height="500"
@@ -215,7 +216,54 @@
         </div>
       </div>
       <div class="about-photo-wrap">
-        <img src="images/henrique.JPEG" alt="Henrique Siqueira" class="about-photo" loading="lazy" />
+        <img src="images/henrique.jpg" alt="Henrique Siqueira" class="about-photo" loading="lazy" />
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ CONTACT — light section ═══ -->
+<section class="contact-section" id="contato">
+  <div class="contact-inner">
+    <div class="contact-left">
+      <div class="section-label-row">
+        <span class="section-label">Contato</span>
+        <div class="section-rule"></div>
+      </div>
+      <h2 class="section-heading" style="margin-bottom:1rem">Fala comigo</h2>
+      <p class="contact-desc">
+        Tem uma dúvida, sugestão ou só quer trocar ideia?
+        Deixa sua mensagem — leio tudo.
+      </p>
+    </div>
+    <div class="contact-right">
+      <!-- Form -->
+      <div id="contactForm" class="contact-form">
+        <div class="cf-group">
+          <label class="cf-label" for="cName">Nome *</label>
+          <input type="text" id="cName" class="cf-input" placeholder="Seu nome" maxlength="80" />
+        </div>
+        <div class="cf-group">
+          <label class="cf-label" for="cContact">E-mail ou WhatsApp <span class="cf-optional">(opcional)</span></label>
+          <input type="text" id="cContact" class="cf-input" placeholder="seu@email.com ou +55 11 99999-9999" maxlength="120" />
+        </div>
+        <div class="cf-group">
+          <label class="cf-label" for="cMessage">Mensagem *</label>
+          <textarea id="cMessage" class="cf-textarea" placeholder="Escreva sua mensagem…" maxlength="1000" rows="5"></textarea>
+          <span class="cf-char" id="cMsgChar">0 / 1000</span>
+        </div>
+        <div id="cError" class="cf-error" style="display:none"></div>
+        <button class="btn-primary cf-btn" id="cSubmit" type="button">
+          <span id="cSubmitText">Enviar mensagem</span>
+          <div class="cf-spinner" id="cSpinner" style="display:none"></div>
+        </button>
+      </div>
+      <!-- Success -->
+      <div id="cSuccess" class="contact-success" style="display:none">
+        <div class="contact-success-icon">✓</div>
+        <h3>Mensagem enviada!</h3>
+        <p>Obrigado pelo contato. Retorno em breve.</p>
       </div>
     </div>
   </div>

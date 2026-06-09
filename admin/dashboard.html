@@ -22,33 +22,28 @@
       <span class="sidebar-brand-label">Admin</span>
     </div>
     <nav class="sidebar-nav">
-      <a href="dashboard.html" class="s-link active">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-          <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
-          <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
-        </svg>
-        Dashboard
+      <a href="#" class="s-link active" data-tab="articles">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        Artigos
       </a>
-      <a href="#" class="s-link" id="sideNewBtn">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-          <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
-        </svg>
-        Novo Artigo
+      <a href="#" class="s-link" data-tab="messages">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Mensagens
+        <span class="msg-badge" id="msgBadge" style="display:none">0</span>
       </a>
+      <a href="#" class="s-link" data-tab="settings">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        Configurações
+      </a>
+      <div class="s-divider"></div>
       <a href="/" class="s-link" target="_blank" rel="noopener">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-          <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
-        </svg>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
         Ver Blog
       </a>
     </nav>
     <div class="sidebar-footer">
       <button class="s-logout" id="logoutBtn">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-          <polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
-        </svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
         Sair
       </button>
     </div>
@@ -57,65 +52,169 @@
   <!-- ═══ MAIN ═══ -->
   <div class="admin-content">
 
-    <!-- Topbar -->
     <div class="admin-topbar">
       <span class="admin-greeting" id="adminGreeting">Carregando…</span>
       <button class="admin-new-btn" id="topNewBtn">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
-        </svg>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         Novo Artigo
       </button>
     </div>
 
     <div class="admin-body-content">
 
-      <!-- Stats -->
-      <div class="stats-row">
-        <div class="stat-card">
-          <span class="stat-card-num" id="statTotal">—</span>
-          <span class="stat-card-label">Total de artigos</span>
+      <!-- ══════════ TAB: ARTICLES ══════════ -->
+      <div id="tabArticles" class="tab-panel">
+        <div class="stats-row">
+          <div class="stat-card">
+            <span class="stat-card-num" id="statTotal">—</span>
+            <span class="stat-card-label">Total de artigos</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-card-num" id="statPublished">—</span>
+            <span class="stat-card-label">Publicados</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-card-num" id="statDraft">—</span>
+            <span class="stat-card-label">Rascunhos</span>
+          </div>
         </div>
-        <div class="stat-card">
-          <span class="stat-card-num" id="statPublished">—</span>
-          <span class="stat-card-label">Publicados</span>
-        </div>
-        <div class="stat-card">
-          <span class="stat-card-num" id="statDraft">—</span>
-          <span class="stat-card-label">Rascunhos</span>
+
+        <div class="articles-panel">
+          <div class="panel-header">
+            <h2 class="panel-title">Artigos</h2>
+            <input type="search" id="searchInput" class="panel-search" placeholder="Buscar artigos…" />
+          </div>
+          <div style="overflow-x:auto">
+            <table class="articles-table">
+              <thead>
+                <tr>
+                  <th>Título</th><th>Categoria</th><th>Status</th><th>Data</th><th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="tableBody">
+                <tr class="table-empty"><td colspan="5">Carregando artigos…</td></tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 
-      <!-- Articles panel -->
-      <div class="articles-panel">
-        <div class="panel-header">
-          <h2 class="panel-title">Artigos</h2>
-          <input type="search" id="searchInput" class="panel-search" placeholder="Buscar artigos…" />
+      <!-- ══════════ TAB: MESSAGES ══════════ -->
+      <div id="tabMessages" class="tab-panel" style="display:none">
+        <div class="panel-title-row">
+          <h2 class="tab-heading">Mensagens dos visitantes</h2>
+          <span class="tab-sub" id="msgCount">0 mensagens</span>
         </div>
-        <div style="overflow-x:auto;">
-          <table class="articles-table" id="articlesTable">
-            <thead>
-              <tr>
-                <th>Título</th>
-                <th>Categoria</th>
-                <th>Status</th>
-                <th>Data</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-            <tbody id="tableBody">
-              <tr class="table-empty"><td colspan="5">Carregando artigos…</td></tr>
-            </tbody>
-          </table>
+        <div id="messagesList" class="messages-list">
+          <div class="table-empty" style="padding:4rem;text-align:center;color:var(--dark-300)">Carregando…</div>
         </div>
       </div>
 
-    </div>
-  </div>
-</div>
+      <!-- ══════════ TAB: SETTINGS ══════════ -->
+      <div id="tabSettings" class="tab-panel" style="display:none">
+        <div class="panel-title-row">
+          <h2 class="tab-heading">Configurações do Blog</h2>
+          <span class="tab-sub">Fotos e identidade visual</span>
+        </div>
 
-<!-- ═══ MODAL: Editor ═══ -->
-<div class="modal-backdrop" id="editorModal" style="display:none;" role="dialog" aria-modal="true" aria-labelledby="editorModalTitle">
+        <div class="settings-grid">
+
+          <!-- Foto do Hero -->
+          <div class="setting-card">
+            <div class="setting-card-header">
+              <div>
+                <h3 class="setting-card-title">Foto do Hero</h3>
+                <p class="setting-card-desc">Aparece na página inicial, seção de destaque.</p>
+              </div>
+            </div>
+            <div class="setting-preview-wrap">
+              <img id="previewHero" class="setting-preview-img" src="" alt="" style="display:none"/>
+              <div class="setting-preview-placeholder" id="placeholderHero">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                <span>Sem foto</span>
+              </div>
+            </div>
+            <div class="setting-actions">
+              <input type="file" id="fileHero" accept="image/*" style="display:none"/>
+              <button class="btn-outline setting-upload-btn" onclick="document.getElementById('fileHero').click()">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
+                Enviar foto
+              </button>
+              <div class="upload-prog-wrap" id="progHeroWrap" style="display:none">
+                <div class="upload-prog-bar"><div class="upload-prog-fill" id="progHeroFill"></div></div>
+                <span class="upload-prog-txt" id="progHeroTxt">0%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Foto Sobre -->
+          <div class="setting-card">
+            <div class="setting-card-header">
+              <div>
+                <h3 class="setting-card-title">Foto da Seção Sobre</h3>
+                <p class="setting-card-desc">Aparece na seção "Sobre" da página inicial.</p>
+              </div>
+            </div>
+            <div class="setting-preview-wrap">
+              <img id="previewAbout" class="setting-preview-img" src="" alt="" style="display:none"/>
+              <div class="setting-preview-placeholder" id="placeholderAbout">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                <span>Sem foto</span>
+              </div>
+            </div>
+            <div class="setting-actions">
+              <input type="file" id="fileAbout" accept="image/*" style="display:none"/>
+              <button class="btn-outline setting-upload-btn" onclick="document.getElementById('fileAbout').click()">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
+                Enviar foto
+              </button>
+              <div class="upload-prog-wrap" id="progAboutWrap" style="display:none">
+                <div class="upload-prog-bar"><div class="upload-prog-fill" id="progAboutFill"></div></div>
+                <span class="upload-prog-txt" id="progAboutTxt">0%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Avatar / Byline -->
+          <div class="setting-card">
+            <div class="setting-card-header">
+              <div>
+                <h3 class="setting-card-title">Avatar / Byline</h3>
+                <p class="setting-card-desc">Foto circular nos artigos ao lado do seu nome.</p>
+              </div>
+            </div>
+            <div class="setting-preview-wrap avatar-preview-wrap">
+              <img id="previewAvatar" class="setting-preview-avatar" src="" alt="" style="display:none"/>
+              <div class="setting-preview-placeholder avatar-placeholder" id="placeholderAvatar">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              </div>
+            </div>
+            <div class="setting-actions">
+              <input type="file" id="fileAvatar" accept="image/*" style="display:none"/>
+              <button class="btn-outline setting-upload-btn" onclick="document.getElementById('fileAvatar').click()">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
+                Enviar foto
+              </button>
+              <div class="upload-prog-wrap" id="progAvatarWrap" style="display:none">
+                <div class="upload-prog-bar"><div class="upload-prog-fill" id="progAvatarFill"></div></div>
+                <span class="upload-prog-txt" id="progAvatarTxt">0%</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="settings-save-row">
+          <div id="settingsFeedback" class="settings-feedback" style="display:none"></div>
+        </div>
+      </div>
+
+    </div><!-- /admin-body-content -->
+  </div><!-- /admin-content -->
+</div><!-- /admin-layout -->
+
+<!-- ═══ MODAL: Editor de Artigo ═══ -->
+<div class="modal-backdrop" id="editorModal" style="display:none" role="dialog" aria-modal="true" aria-labelledby="editorModalTitle">
   <div class="modal-box">
     <div class="modal-head">
       <h2 class="modal-head-title" id="editorModalTitle">Novo Artigo</h2>
@@ -123,7 +222,6 @@
     </div>
     <div class="modal-body">
       <input type="hidden" id="editingId" />
-
       <div class="f-row">
         <div class="f-group" style="flex:2">
           <label class="f-label">Título *</label>
@@ -141,18 +239,12 @@
           </select>
         </div>
       </div>
-
-      <!-- Image upload -->
       <div class="f-group">
         <label class="f-label">Imagem de capa</label>
         <div class="img-upload-zone" id="uploadZone">
           <input type="file" id="fileInput" accept="image/*" style="display:none" />
           <div class="img-placeholder" id="imgPlaceholder">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-              <rect x="3" y="3" width="18" height="18" rx="2"/>
-              <circle cx="8.5" cy="8.5" r="1.5"/>
-              <polyline points="21 15 16 10 5 21"/>
-            </svg>
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
             <p>Clique ou arraste uma imagem</p>
             <span>JPG, PNG, WebP — máx. 5 MB</span>
           </div>
@@ -163,45 +255,32 @@
           <span class="upload-prog-txt" id="progTxt">Enviando…</span>
         </div>
       </div>
-
-      <!-- Content editor -->
       <div class="f-group">
         <label class="f-label">Conteúdo *</label>
         <div class="editor-toolbar">
-          <button class="t-btn" data-cmd="bold"            title="Negrito"><b>B</b></button>
-          <button class="t-btn" data-cmd="italic"          title="Itálico"><i>I</i></button>
-          <button class="t-btn" data-cmd="underline"       title="Sublinhado"><u>U</u></button>
+          <button class="t-btn" data-cmd="bold" title="Negrito"><b>B</b></button>
+          <button class="t-btn" data-cmd="italic" title="Itálico"><i>I</i></button>
+          <button class="t-btn" data-cmd="underline" title="Sublinhado"><u>U</u></button>
           <div class="t-sep"></div>
-          <button class="t-btn" data-cmd="h2"              title="Título H2">H2</button>
-          <button class="t-btn" data-cmd="h3"              title="Título H3">H3</button>
-          <button class="t-btn" data-cmd="blockquote"      title="Citação">❝</button>
+          <button class="t-btn" data-cmd="h2" title="H2">H2</button>
+          <button class="t-btn" data-cmd="h3" title="H3">H3</button>
+          <button class="t-btn" data-cmd="blockquote" title="Citação">❝</button>
           <div class="t-sep"></div>
           <button class="t-btn" data-cmd="insertUnorderedList" title="Lista">≡</button>
-          <button class="t-btn" data-cmd="createLink"      title="Link">🔗</button>
-          <button class="t-btn" data-cmd="removeFormat"    title="Limpar formatação">✕</button>
+          <button class="t-btn" data-cmd="createLink" title="Link">🔗</button>
+          <button class="t-btn" data-cmd="removeFormat" title="Limpar">✕</button>
         </div>
-        <div
-          id="fContent"
-          class="content-editable"
-          contenteditable="true"
-          data-placeholder="Escreva o conteúdo do artigo aqui…"
-          role="textbox"
-          aria-multiline="true"
-        ></div>
+        <div id="fContent" class="content-editable" contenteditable="true" data-placeholder="Escreva o conteúdo do artigo aqui…" role="textbox" aria-multiline="true"></div>
       </div>
-
-      <!-- Excerpt -->
       <div class="f-group">
-        <label class="f-label">Resumo / Excerpt <span style="color:var(--dark-400);font-size:.55rem;letter-spacing:.05em;text-transform:none">(SEO · máx. 160 caracteres)</span></label>
-        <textarea id="fExcerpt" class="f-textarea" placeholder="Breve descrição para SEO e listagem…" maxlength="160" rows="3"></textarea>
+        <label class="f-label">Resumo / Excerpt <span style="color:var(--dark-400);font-size:.55rem;text-transform:none">(SEO · máx. 160 caracteres)</span></label>
+        <textarea id="fExcerpt" class="f-textarea" placeholder="Breve descrição…" maxlength="160" rows="3"></textarea>
         <span class="f-char" id="excerptChar">0 / 160</span>
       </div>
-
-      <div id="editorError" class="f-error" style="display:none;" role="alert">
+      <div id="editorError" class="f-error" style="display:none" role="alert">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
         <span id="editorErrorMsg"></span>
       </div>
-
       <div class="modal-actions">
         <button class="btn-outline" id="editorCancel">Cancelar</button>
         <button class="btn-gold" id="editorSave">
@@ -213,23 +292,54 @@
   </div>
 </div>
 
-<!-- ═══ MODAL: Confirmar exclusão ═══ -->
-<div class="modal-backdrop" id="deleteModal" style="display:none;" role="dialog" aria-modal="true">
+<!-- ═══ MODAL: Excluir artigo ═══ -->
+<div class="modal-backdrop" id="deleteModal" style="display:none" role="dialog" aria-modal="true">
   <div class="modal-box modal-box-sm">
     <div class="modal-head">
       <h2 class="modal-head-title">Excluir artigo?</h2>
       <button class="modal-close-btn" id="deleteClose" aria-label="Fechar">✕</button>
     </div>
     <div class="modal-body-sm">
-      <p class="modal-confirm-text">
-        Esta ação é permanente e não pode ser desfeita.
-        O artigo será removido do blog imediatamente.
-      </p>
+      <p class="modal-confirm-text">Esta ação é permanente e não pode ser desfeita.</p>
       <div class="modal-confirm-actions">
         <button class="btn-outline" id="deleteCancel">Cancelar</button>
         <button class="btn-danger" id="deleteConfirm">
           <span id="deleteText">Excluir permanentemente</span>
           <div class="f-spinner" id="deleteSpinner" style="display:none"></div>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MODAL: Ver mensagem ═══ -->
+<div class="modal-backdrop" id="msgModal" style="display:none" role="dialog" aria-modal="true">
+  <div class="modal-box modal-box-sm">
+    <div class="modal-head">
+      <h2 class="modal-head-title">Mensagem</h2>
+      <button class="modal-close-btn" id="msgModalClose" aria-label="Fechar">✕</button>
+    </div>
+    <div class="modal-body-sm">
+      <div class="msg-detail">
+        <div class="msg-detail-row">
+          <span class="msg-detail-label">De</span>
+          <span id="msgDetailName" class="msg-detail-value"></span>
+        </div>
+        <div class="msg-detail-row" id="msgDetailContactRow">
+          <span class="msg-detail-label">Contato</span>
+          <span id="msgDetailContact" class="msg-detail-value"></span>
+        </div>
+        <div class="msg-detail-row">
+          <span class="msg-detail-label">Data</span>
+          <span id="msgDetailDate" class="msg-detail-value"></span>
+        </div>
+        <div class="msg-detail-msg" id="msgDetailBody"></div>
+      </div>
+      <div class="modal-confirm-actions">
+        <button class="btn-outline" id="msgModalClose2">Fechar</button>
+        <button class="btn-danger" id="msgDeleteBtn">
+          <span id="msgDeleteText">Excluir mensagem</span>
+          <div class="f-spinner" id="msgDeleteSpinner" style="display:none"></div>
         </button>
       </div>
     </div>

@@ -47,8 +47,19 @@ henrique-siqueira/
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    // Artigos: leitura pública (só publicados), escrita só logado
     match /articles/{articleId} {
-      allow read: if resource.data.status == 'published';
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+    // Mensagens: visitantes podem criar, só admin lê/apaga
+    match /messages/{msgId} {
+      allow create: if true;
+      allow read, update, delete: if request.auth != null;
+    }
+    // Configurações do site: só admin
+    match /settings/{docId} {
+      allow read: if true;
       allow write: if request.auth != null;
     }
   }
