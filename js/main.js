@@ -2,222 +2,171 @@
 import { db } from "./firebase-config.js";
 import {
   collection, query, orderBy, limit,
-  getDocs, where, startAfter
+  getDocs, startAfter, where
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 // ── Cursor ──
 const cursor         = document.getElementById("cursor");
 const cursorFollower = document.getElementById("cursorFollower");
 let mouseX = 0, mouseY = 0, followerX = 0, followerY = 0;
-
 document.addEventListener("mousemove", (e) => {
   mouseX = e.clientX; mouseY = e.clientY;
-  cursor.style.left = mouseX + "px";
-  cursor.style.top  = mouseY + "px";
+  if (cursor) { cursor.style.left = mouseX + "px"; cursor.style.top = mouseY + "px"; }
 });
-
-function animateFollower() {
-  followerX += (mouseX - followerX) * .12;
-  followerY += (mouseY - followerY) * .12;
-  cursorFollower.style.left = followerX + "px";
-  cursorFollower.style.top  = followerY + "px";
-  requestAnimationFrame(animateFollower);
-}
-animateFollower();
+(function animF() {
+  followerX += (mouseX - followerX) * .1;
+  followerY += (mouseY - followerY) * .1;
+  if (cursorFollower) { cursorFollower.style.left = followerX + "px"; cursorFollower.style.top = followerY + "px"; }
+  requestAnimationFrame(animF);
+})();
 
 // ── Header scroll ──
 const header = document.getElementById("siteHeader");
 window.addEventListener("scroll", () => {
-  header.classList.toggle("scrolled", window.scrollY > 20);
+  if (header) header.classList.toggle("scrolled", window.scrollY > 40);
 }, { passive: true });
 
 // ── Year ──
-document.getElementById("year").textContent = new Date().getFullYear();
+const yearEl = document.getElementById("year");
+if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-// ── Counter animation ──
+// ── Counter ──
 function animateCounter(el, target) {
-  if (isNaN(target)) { el.textContent = target; return; }
-  let current = 0;
-  const step = Math.ceil(target / 40);
-  const interval = setInterval(() => {
-    current = Math.min(current + step, target);
-    el.textContent = current;
-    if (current >= target) clearInterval(interval);
+  if (!el || isNaN(target)) { if (el) el.textContent = target; return; }
+  let n = 0;
+  const step = Math.max(1, Math.ceil(target / 40));
+  const iv = setInterval(() => {
+    n = Math.min(n + step, target);
+    el.textContent = n;
+    if (n >= target) clearInterval(iv);
   }, 30);
 }
 
-// ── Smooth anchor links ──
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener("click", (e) => {
-    const target = document.querySelector(a.getAttribute("href"));
-    if (target) {
-      e.preventDefault();
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  });
-});
-
-// ── Intersection Observer for animations ──
-const io = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) e.target.classList.add("visible");
-  });
-}, { threshold: .1 });
-
-// ── Fetch articles ──
-const PAGE_SIZE = 6;
-let lastDoc = null;
-let totalCount = 0;
-let allArticles = [];
-
-async function loadArticles(loadMore = false) {
-  try {
-    const baseQuery = query(
-      collection(db, "articles"),
-      where("status", "==", "published"),
-      orderBy("createdAt", "desc"),
-      limit(PAGE_SIZE + 1)
-    );
-
-    const q = loadMore && lastDoc
-      ? query(
-          collection(db, "articles"),
-          where("status", "==", "published"),
-          orderBy("createdAt", "desc"),
-          startAfter(lastDoc),
-          limit(PAGE_SIZE + 1)
-        )
-      : baseQuery;
-
-    const snap = await getDocs(q);
-    const docs = snap.docs;
-
-    const hasMore = docs.length > PAGE_SIZE;
-    const articles = docs.slice(0, PAGE_SIZE).map(d => ({ id: d.id, ...d.data() }));
-
-    if (docs.length > 0) {
-      lastDoc = docs[Math.min(docs.length - 1, PAGE_SIZE - 1)];
-    }
-
-    return { articles, hasMore };
-  } catch (err) {
-    console.error("Error loading articles:", err);
-    return { articles: [], hasMore: false };
-  }
-}
-
-async function countArticles() {
-  try {
-    const snap = await getDocs(
-      query(collection(db, "articles"), where("status", "==", "published"))
-    );
-    return snap.size;
-  } catch { return 0; }
-}
-
+// ── Format date ──
 function formatDate(ts) {
   if (!ts) return "";
   const d = ts.toDate ? ts.toDate() : new Date(ts);
   return d.toLocaleDateString("pt-BR", { day: "2-digit", month: "short", year: "numeric" });
 }
 
-function readTime(content) {
-  const words = (content || "").replace(/<[^>]+>/g, "").split(/\s+/).length;
-  const mins  = Math.max(1, Math.ceil(words / 200));
-  return `${mins} min de leitura`;
+// ── Articles ──
+const PAGE_SIZE = 7; // 1 featured + 6 grid
+let lastVisible = null;
+
+async function loadArticles(after = null) {
+  try {
+    // FIXED: sem where() + orderBy() juntos para evitar necessidade de índice composto
+    // Busca todos ordenados por data e filtra em memória
+    let q = query(
+      collection(db, "articles"),
+      orderBy("createdAt", "desc"),
+      limit(20)
+    );
+    if (after) {
+      q = query(
+        collection(db, "articles"),
+        orderBy("createdAt", "desc"),
+        startAfter(after),
+        limit(20)
+      );
+    }
+    const snap = await getDocs(q);
+    // Filtra publicados em memória
+    const published = snap.docs.filter(d => d.data().status === "published");
+    const articles = published.slice(0, PAGE_SIZE).map(d => ({ id: d.id, ...d.data() }));
+    if (snap.docs.length > 0) lastVisible = snap.docs[snap.docs.length - 1];
+    return { articles, hasMore: published.length > PAGE_SIZE };
+  } catch (err) {
+    console.error("Firestore error:", err);
+    return { articles: [], hasMore: false };
+  }
+}
+
+async function countPublished() {
+  try {
+    const snap = await getDocs(query(collection(db, "articles"), orderBy("createdAt", "desc")));
+    return snap.docs.filter(d => d.data().status === "published").length;
+  } catch { return 0; }
 }
 
 function renderFeatured(article) {
-  const featured = document.getElementById("featuredArticle");
-  document.getElementById("featuredLink").href        = `artigo.html?id=${article.id}`;
-  document.getElementById("featuredTitle").textContent  = article.title || "";
+  const el = document.getElementById("featuredArticle");
+  if (!el) return;
+  document.getElementById("featuredLink").href = `artigo.html?id=${article.id}`;
+  document.getElementById("featuredTitle").textContent   = article.title   || "";
   document.getElementById("featuredExcerpt").textContent = article.excerpt || "";
   document.getElementById("featuredCategory").textContent = article.category || "Geral";
-  document.getElementById("featuredDate").textContent  = formatDate(article.createdAt);
-  if (article.imageUrl) {
-    const img = document.getElementById("featuredImage");
+  document.getElementById("featuredDate").textContent    = formatDate(article.createdAt);
+  const img = document.getElementById("featuredImage");
+  if (article.imageUrl && img) {
     img.src = article.imageUrl;
     img.alt = article.title || "";
+    img.style.display = "block";
   }
-  featured.style.display = "block";
+  el.style.display = "grid";
 }
 
 function renderCard(article, delay = 0) {
   const card = document.createElement("article");
   card.className = "article-card";
-  card.style.animationDelay = `${delay}ms`;
-  card.setAttribute("itemscope", "");
-  card.setAttribute("itemtype", "https://schema.org/BlogPosting");
-
+  card.style.animationDelay = delay + "ms";
   card.innerHTML = `
-    <a href="artigo.html?id=${article.id}" class="card-link" aria-label="Ler: ${article.title || ""}">
-      <div class="card-image-wrap">
+    <a href="artigo.html?id=${article.id}" class="card-link">
+      <div class="card-img-wrap">
         ${article.imageUrl
-          ? `<img src="${article.imageUrl}" alt="${article.title || ""}" class="card-image" loading="lazy" itemprop="image" />`
-          : `<div class="card-no-image">${(article.category || "HS").substring(0, 2).toUpperCase()}</div>`
-        }
+          ? `<img src="${article.imageUrl}" alt="${article.title || ""}" class="card-img" loading="lazy"/>`
+          : `<div class="card-img-placeholder"><span>${(article.category||"HS").slice(0,2).toUpperCase()}</span></div>`}
       </div>
       <div class="card-body">
         <div class="card-meta">
-          <span class="card-category" itemprop="articleSection">${article.category || "Geral"}</span>
-          <span class="card-date" itemprop="datePublished">${formatDate(article.createdAt)}</span>
+          <span class="card-cat">${article.category || "Geral"}</span>
+          <span class="card-date">${formatDate(article.createdAt)}</span>
         </div>
-        <h3 class="card-title" itemprop="headline">${article.title || ""}</h3>
-        ${article.excerpt ? `<p class="card-excerpt" itemprop="description">${article.excerpt}</p>` : ""}
+        <h3 class="card-title">${article.title || ""}</h3>
+        ${article.excerpt ? `<p class="card-excerpt">${article.excerpt}</p>` : ""}
+        <span class="card-read">Ler artigo →</span>
       </div>
-    </a>
-  `;
-
+    </a>`;
   return card;
 }
 
 async function init() {
-  const grid       = document.getElementById("articlesGrid");
-  const empty      = document.getElementById("emptyState");
+  const grid         = document.getElementById("articlesGrid");
+  const empty        = document.getElementById("emptyState");
   const loadMoreWrap = document.getElementById("loadMoreWrap");
-  const statEl     = document.getElementById("statArticles");
+  const statEl       = document.getElementById("statArticles");
 
-  // Count
-  const count = await countArticles();
+  // Stats
+  const count = await countPublished();
   animateCounter(statEl, count);
 
   // Load
   const { articles, hasMore } = await loadArticles();
-
-  // Clear skeletons
+  if (!grid) return;
   grid.innerHTML = "";
 
   if (articles.length === 0) {
-    empty.style.display = "block";
+    if (empty) empty.style.display = "block";
     return;
   }
 
-  // First article = featured
-  const [first, ...rest] = articles;
-  renderFeatured(first);
-
-  // Rest in grid
+  const [featured, ...rest] = articles;
+  renderFeatured(featured);
   rest.forEach((a, i) => grid.appendChild(renderCard(a, i * 80)));
-  allArticles = [...allArticles, ...rest];
 
-  if (hasMore) {
+  if (hasMore && loadMoreWrap) {
     loadMoreWrap.style.display = "block";
+    document.getElementById("loadMoreBtn")?.addEventListener("click", async () => {
+      const btn = document.getElementById("loadMoreBtn");
+      btn.textContent = "Carregando…";
+      btn.disabled = true;
+      const { articles: more, hasMore: moreLeft } = await loadArticles(lastVisible);
+      more.forEach((a, i) => grid.appendChild(renderCard(a, i * 60)));
+      btn.textContent = "Carregar mais";
+      btn.disabled = false;
+      if (!moreLeft) loadMoreWrap.style.display = "none";
+    });
   }
-
-  // Load more
-  document.getElementById("loadMoreBtn").addEventListener("click", async () => {
-    const btn = document.getElementById("loadMoreBtn");
-    btn.textContent = "Carregando…";
-    btn.disabled = true;
-
-    const { articles: more, hasMore: moreLeft } = await loadArticles(true);
-    more.forEach((a, i) => grid.appendChild(renderCard(a, i * 60)));
-    allArticles = [...allArticles, ...more];
-
-    btn.textContent = "Carregar mais artigos";
-    btn.disabled = false;
-    if (!moreLeft) loadMoreWrap.style.display = "none";
-  });
 }
 
 init();
