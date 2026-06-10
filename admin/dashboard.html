@@ -248,7 +248,13 @@
             <p>Clique ou arraste uma imagem</p>
             <span>JPG, PNG, WebP — máx. 5 MB</span>
           </div>
-          <img id="imgPreview" class="img-thumb" src="" alt="" style="display:none" />
+          <div class="img-preview-wrap" id="imgPreviewWrap" style="display:none">
+            <img id="imgPreview" class="img-thumb" src="" alt="" />
+            <button type="button" class="img-remove-btn" id="imgRemoveBtn" aria-label="Remover foto">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              Remover foto
+            </button>
+          </div>
         </div>
         <div class="upload-prog-wrap" id="uploadProgWrap" style="display:none">
           <div class="upload-prog-bar"><div class="upload-prog-fill" id="progFill"></div></div>

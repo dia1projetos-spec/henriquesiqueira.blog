@@ -310,13 +310,54 @@ function setupEditor() {
     if (f?.type.startsWith("image/")) handleCoverImage(f);
   });
   fi?.addEventListener("change", e => { if (e.target.files[0]) handleCoverImage(e.target.files[0]); });
+
+  // Remover foto
+  document.getElementById("imgRemoveBtn")?.addEventListener("click", (e) => {
+    e.stopPropagation();
+    uploadedUrl = null;
+    showImagePreview(null);
+    if (fi) fi.value = "";
+  });
+
+  // YouTube embed
+  document.getElementById("youtubeBtn")?.addEventListener("mousedown", (e) => {
+    e.preventDefault();
+    const editor = document.getElementById("fContent");
+    const raw = prompt("Cole a URL do vídeo do YouTube:");
+    if (!raw) return;
+    // Extrai o ID do vídeo de qualquer formato de URL do YouTube
+    const match = raw.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([a-zA-Z0-9_-]{11})/);
+    if (!match) { alert("URL inválida. Use um link do YouTube válido."); return; }
+    const videoId = match[1];
+    const embed = `<div class="yt-embed-wrap"><iframe src="https://www.youtube.com/embed/${videoId}" title="Vídeo do YouTube" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>`;
+    // Insere no cursor ou no final
+    editor.focus();
+    const sel = window.getSelection();
+    if (sel && sel.rangeCount > 0 && editor.contains(sel.anchorNode)) {
+      const range = sel.getRangeAt(0);
+      range.deleteContents();
+      const div = document.createElement("div");
+      div.innerHTML = embed;
+      const frag = document.createDocumentFragment();
+      let node;
+      while ((node = div.firstChild)) frag.appendChild(node);
+      range.insertNode(frag);
+      // Move cursor para depois do embed
+      range.collapse(false);
+      sel.removeAllRanges();
+      sel.addRange(range);
+    } else {
+      editor.innerHTML += embed;
+    }
+  });
+
   document.getElementById("fExcerpt")?.addEventListener("input", e => {
     document.getElementById("excerptChar").textContent = `${e.target.value.length} / 160`;
   });
   document.getElementById("editorSave")?.addEventListener("click", saveArticle);
 }
 
-function resetEditor() {
+function resetEditor(clearImage = true) {
   document.getElementById("editingId").value = "";
   document.getElementById("fTitle").value    = "";
   document.getElementById("fCategory").value = "";
@@ -324,15 +365,32 @@ function resetEditor() {
   document.getElementById("fContent").innerHTML = "";
   document.getElementById("fExcerpt").value  = "";
   document.getElementById("excerptChar").textContent = "0 / 160";
-  document.getElementById("imgPreview").style.display    = "none";
-  document.getElementById("imgPlaceholder").style.display = "flex";
   document.getElementById("uploadProgWrap").style.display = "none";
   document.getElementById("editorError").style.display   = "none";
-  uploadedUrl = null;
+  if (clearImage) {
+    uploadedUrl = null;
+    showImagePreview(null);
+  }
+}
+
+function showImagePreview(url) {
+  const wrap = document.getElementById("imgPreviewWrap");
+  const ph   = document.getElementById("imgPlaceholder");
+  const img  = document.getElementById("imgPreview");
+  if (url) {
+    img.src = url;
+    wrap.style.display = "block";
+    ph.style.display   = "none";
+  } else {
+    wrap.style.display = "none";
+    ph.style.display   = "flex";
+    img.src = "";
+  }
 }
 
 function openCreate() {
-  editingId = null; resetEditor();
+  editingId = null;
+  resetEditor(true);
   document.getElementById("editorModalTitle").textContent = "Novo Artigo";
   document.getElementById("editorSaveText").textContent   = "Publicar Artigo";
   document.getElementById("editorModal").style.display    = "flex";
@@ -342,21 +400,20 @@ function openCreate() {
 window.openEdit = (id) => {
   const a = articles.find(x => x.id === id);
   if (!a) return;
-  editingId = id; uploadedUrl = a.imageUrl || null; resetEditor();
+  editingId = id;
+  uploadedUrl = a.imageUrl || null;
+  resetEditor(false); // NÃO limpa a imagem — vamos restaurar logo abaixo
   document.getElementById("editorModalTitle").textContent = "Editar Artigo";
   document.getElementById("editorSaveText").textContent   = "Salvar Alterações";
-  document.getElementById("editingId").value   = id;
-  document.getElementById("fTitle").value      = a.title    || "";
-  document.getElementById("fCategory").value   = a.category || "";
-  document.getElementById("fStatus").value     = a.status   || "draft";
-  document.getElementById("fContent").innerHTML = a.content || "";
-  document.getElementById("fExcerpt").value    = a.excerpt  || "";
+  document.getElementById("editingId").value    = id;
+  document.getElementById("fTitle").value       = a.title    || "";
+  document.getElementById("fCategory").value    = a.category || "";
+  document.getElementById("fStatus").value      = a.status   || "draft";
+  document.getElementById("fContent").innerHTML = a.content  || "";
+  document.getElementById("fExcerpt").value     = a.excerpt  || "";
   document.getElementById("excerptChar").textContent = `${(a.excerpt||"").length} / 160`;
-  if (a.imageUrl) {
-    document.getElementById("imgPreview").src            = a.imageUrl;
-    document.getElementById("imgPreview").style.display  = "block";
-    document.getElementById("imgPlaceholder").style.display = "none";
-  }
+  // Restaura imagem salva — sem precisar re-enviar
+  showImagePreview(a.imageUrl || null);
   document.getElementById("editorModal").style.display = "flex";
   document.body.style.overflow = "hidden";
 };
@@ -368,15 +425,16 @@ function closeEditor() {
 
 async function handleCoverImage(file) {
   if (file.size > 5 * 1024 * 1024) { alert("Máximo 5MB."); return; }
-  const wrap    = document.getElementById("uploadProgWrap");
-  const fill    = document.getElementById("progFill");
-  const txt     = document.getElementById("progTxt");
-  const preview = document.getElementById("imgPreview");
-  const ph      = document.getElementById("imgPlaceholder");
-  ph.style.display = "none"; preview.style.display = "none"; wrap.style.display = "flex";
+  const wrap = document.getElementById("uploadProgWrap");
+  const fill = document.getElementById("progFill");
+  const txt  = document.getElementById("progTxt");
+  showImagePreview(null); // esconde preview enquanto sobe
+  wrap.style.display = "flex"; fill.style.width = "0%"; txt.textContent = "Enviando…";
   try {
     const url = await cloudinaryUpload(file, "covers", fill, txt);
-    uploadedUrl = url; preview.src = url; preview.style.display = "block"; wrap.style.display = "none";
+    uploadedUrl = url;
+    wrap.style.display = "none";
+    showImagePreview(url);
   } catch (err) { txt.textContent = "Erro no upload."; console.error(err); }
 }
 

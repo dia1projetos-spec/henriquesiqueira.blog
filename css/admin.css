@@ -945,3 +945,53 @@
 @media (max-width: 900px) {
   .settings-grid { grid-template-columns: 1fr; }
 }
+
+/* ── Image preview with remove button ── */
+.img-preview-wrap {
+  position: relative;
+  width: 100%;
+}
+.img-preview-wrap .img-thumb {
+  display: block;
+  width: 100%;
+  max-height: 240px;
+  object-fit: cover;
+  border-radius: 4px 4px 0 0;
+}
+.img-remove-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .4rem;
+  width: 100%;
+  padding: .55rem 1rem;
+  background: rgba(239,68,68,.08);
+  border: none;
+  border-top: 1px solid rgba(239,68,68,.2);
+  border-radius: 0 0 4px 4px;
+  color: #fca5a5;
+  font-family: var(--sans);
+  font-size: .72rem;
+  letter-spacing: .08em;
+  cursor: pointer;
+  transition: background .2s;
+}
+.img-remove-btn:hover { background: rgba(239,68,68,.15); }
+
+/* ── YouTube embed inside editor ── */
+.content-editable .yt-embed-wrap {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  height: 0;
+  margin: 1rem 0;
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--dark-900);
+}
+.content-editable .yt-embed-wrap iframe {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  border: none;
+}
