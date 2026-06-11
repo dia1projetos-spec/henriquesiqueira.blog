@@ -31,6 +31,10 @@
         Mensagens
         <span class="msg-badge" id="msgBadge" style="display:none">0</span>
       </a>
+      <a href="#" class="s-link" data-tab="slides">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        Slides do Hero
+      </a>
       <a href="#" class="s-link" data-tab="settings">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
         Configurações
@@ -107,6 +111,45 @@
         </div>
         <div id="messagesList" class="messages-list">
           <div class="table-empty" style="padding:4rem;text-align:center;color:var(--dark-300)">Carregando…</div>
+        </div>
+      </div>
+
+
+      <!-- ══════════ TAB: SLIDES ══════════ -->
+      <div id="tabSlides" class="tab-panel" style="display:none">
+        <div class="panel-title-row">
+          <h2 class="tab-heading">Slides do Hero</h2>
+          <span class="tab-sub">Imagens exibidas no slideshow da página inicial</span>
+        </div>
+
+        <div class="slides-manager">
+          <!-- Upload novo slide -->
+          <div class="slide-upload-card">
+            <div class="slide-upload-zone" id="slideUploadZone">
+              <input type="file" id="slideFileInput" accept="image/*" style="display:none"/>
+              <div class="slide-upload-ph" id="slideUploadPh">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                <p>Clique para adicionar um slide</p>
+                <span>JPG, PNG, WebP — Recomendado: 1920×1080px</span>
+              </div>
+            </div>
+            <div class="upload-prog-wrap" id="slideProgWrap" style="display:none">
+              <div class="upload-prog-bar"><div class="upload-prog-fill" id="slideProgFill"></div></div>
+              <span class="upload-prog-txt" id="slideProgTxt">Enviando…</span>
+            </div>
+          </div>
+
+          <!-- Lista de slides -->
+          <div class="slides-list-header">
+            <span class="f-label">Slides ativos (<span id="slideCount">0</span>)</span>
+            <span class="f-label" style="color:var(--dark-400)">Arraste para reordenar</span>
+          </div>
+          <div class="slides-list" id="slidesList">
+            <div class="slides-empty" id="slidesEmpty">
+              <p>Nenhum slide adicionado ainda.</p>
+              <p style="color:var(--dark-400);font-size:.75rem;margin-top:.4rem">Adicione uma imagem acima para começar.</p>
+            </div>
+          </div>
         </div>
       </div>
 

@@ -35,9 +35,11 @@ function setupTabs() {
       link.classList.add("active");
       document.getElementById("tabArticles").style.display  = tab === "articles"  ? "block" : "none";
       document.getElementById("tabMessages").style.display  = tab === "messages"  ? "block" : "none";
+      document.getElementById("tabSlides").style.display    = tab === "slides"    ? "block" : "none";
       document.getElementById("tabSettings").style.display  = tab === "settings"  ? "block" : "none";
       document.getElementById("topNewBtn").style.display    = tab === "articles"  ? "flex"  : "none";
       if (tab === "messages") loadMessages();
+      if (tab === "slides")   loadSlidesManager();
       if (tab === "settings") loadSettings();
     });
   });
@@ -490,6 +492,108 @@ async function confirmDelete() {
   try { await deleteDoc(doc(db, "articles", deletingId)); closeDelete(); await fetchArticles(); }
   catch (err) { alert("Erro: " + err.message); }
   finally { btn.disabled = false; txt.style.display = "inline"; sp.style.display = "none"; }
+}
+
+
+// ═══════════════════════════════════════════
+// SLIDES MANAGER
+// ═══════════════════════════════════════════
+let slidesData = [];
+
+async function loadSlidesManager() {
+  const list  = document.getElementById("slidesList");
+  const empty = document.getElementById("slidesEmpty");
+  const count = document.getElementById("slideCount");
+  if (!list) return;
+
+  try {
+    const snap = await getDoc(doc(db, "settings", "slides"));
+    slidesData = (snap.exists() && Array.isArray(snap.data().items)) ? snap.data().items : [];
+  } catch { slidesData = []; }
+
+  renderSlidesList();
+
+  // Upload zone
+  const zone = document.getElementById("slideUploadZone");
+  const fi   = document.getElementById("slideFileInput");
+  if (zone && !zone.dataset.ready) {
+    zone.dataset.ready = "1";
+    zone.addEventListener("click", () => fi?.click());
+    zone.addEventListener("dragover",  e => { e.preventDefault(); zone.style.borderColor="var(--gold)"; });
+    zone.addEventListener("dragleave", () => zone.style.borderColor="");
+    zone.addEventListener("drop", e => {
+      e.preventDefault(); zone.style.borderColor="";
+      const f = e.dataTransfer.files[0];
+      if (f?.type.startsWith("image/")) uploadSlide(f);
+    });
+    fi?.addEventListener("change", e => { if(e.target.files[0]) uploadSlide(e.target.files[0]); fi.value=""; });
+  }
+}
+
+function renderSlidesList() {
+  const list  = document.getElementById("slidesList");
+  const empty = document.getElementById("slidesEmpty");
+  const count = document.getElementById("slideCount");
+  if (!list) return;
+
+  if (count) count.textContent = slidesData.length;
+
+  if (!slidesData.length) {
+    list.innerHTML = "";
+    if (empty) { empty.style.display="block"; list.appendChild(empty); }
+    return;
+  }
+  if (empty) empty.style.display = "none";
+
+  list.innerHTML = slidesData.map((s, i) => `
+    <div class="slide-item" data-index="${i}">
+      <img src="${s.url}" alt="Slide ${i+1}" loading="lazy"/>
+      <div class="slide-item-overlay">
+        <button class="slide-del-btn" onclick="deleteSlide(${i})">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+          Remover
+        </button>
+      </div>
+      <div class="slide-order-badge">${i+1}</div>
+    </div>`).join("");
+}
+
+async function uploadSlide(file) {
+  if (file.size > 8*1024*1024) { alert("Máximo 8MB."); return; }
+  const wrap = document.getElementById("slideProgWrap");
+  const fill = document.getElementById("slideProgFill");
+  const txt  = document.getElementById("slideProgTxt");
+  if (wrap) { wrap.style.display="flex"; fill.style.width="0%"; txt.textContent="Enviando…"; }
+  try {
+    const url = await cloudinaryUpload(file, "slides", fill, txt);
+    slidesData.push({ url, addedAt: new Date().toISOString() });
+    await setDoc(doc(db, "settings", "slides"), { items: slidesData }, { merge: true });
+    renderSlidesList();
+    showSlideFeedback("✓ Slide adicionado!");
+  } catch(err) {
+    console.error("uploadSlide:", err);
+    if(txt) txt.textContent = "Erro no upload.";
+  } finally {
+    setTimeout(() => { if(wrap) wrap.style.display="none"; }, 1500);
+  }
+}
+
+window.deleteSlide = async (idx) => {
+  if (!confirm("Remover este slide?")) return;
+  slidesData.splice(idx, 1);
+  try {
+    await setDoc(doc(db, "settings", "slides"), { items: slidesData }, { merge: false });
+    renderSlidesList();
+    showSlideFeedback("Slide removido.");
+  } catch(err) { alert("Erro: " + err.message); }
+};
+
+function showSlideFeedback(msg) {
+  const el = document.getElementById("settingsFeedback");
+  if (!el) return;
+  el.textContent = msg; el.className = "settings-feedback ok";
+  el.style.display = "block";
+  setTimeout(() => el.style.display="none", 3000);
 }
 
 // Init settings listeners on load
